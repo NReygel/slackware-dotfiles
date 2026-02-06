@@ -50,3 +50,24 @@ mkal () {
 	echo "New alias available in current and future sessions."
 }
 
+### Function to push local changes to dotfiles github
+push_dotfiles() {
+    local repo="$HOME/slackware-dotfiles"
+    cd "$repo" || { echo "Repo not found!"; return 1; }
+
+    # Stage all changes
+    git add .
+
+    # Commit with a message
+    read -rp "Enter commit message: " msg
+    if [ -z "$msg" ]; then
+        echo "Aborted: commit message required."
+        return 1
+    fi
+
+    git commit -m "$msg"
+
+    # Push to GitHub
+    git push
+    echo "Local changes pushed to GitHub!"
+}
