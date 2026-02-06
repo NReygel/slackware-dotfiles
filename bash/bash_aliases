@@ -1,0 +1,8 @@
+#!/bin/bash
+# File name: bash_aliases
+# File created: 12/11/2025
+# User@Host: gc@neutron.lan
+
+alias ll='ls -lhA'
+alias bps='export PS1="[\u@\h \W]\$ "'
+alias ff='clear && fastfetch'
