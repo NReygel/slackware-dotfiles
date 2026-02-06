@@ -71,3 +71,17 @@ push_dotfiles() {
     git push
     echo "Local changes pushed to GitHub!"
 }
+
+### Function to pull dotfiles from github
+update_dotfiles() {
+    local repo="$HOME/slackware-dotfiles"
+    if [ -d "$repo" ]; then
+        echo "Updating dotfiles..."
+        cd "$repo" || return
+        git pull
+        ./install-dotfiles.sh
+        echo "Dotfiles updated!"
+    else
+        echo "Error: $repo not found."
+    fi
+}
