@@ -1,0 +1,57 @@
+" ~/.vimrc
+" Last edit : 12/11/2025
+" gc@neutron
+
+"--- Basic Settings ---
+syntax on			" Enable syntax highlighting
+set number			" Show line numbers
+set relativenumber	" Show relative line numbers (useful for navigation)
+set tabstop=4		" A tab character occupies 4 spaces
+set shiftwidth=4	" Indentation command uses 4 spaces
+set expandtab		" Use spaces instead of tab characters
+set autoindent		" Copy indent from current line when starting a new line
+set smartindent		" More intelligent auto-indenting for C-like files
+set wrap			" Wrap long lines
+set incsearch		" Show partial matches for searches
+set hlsearch        " Highlight search matches
+set ignorecase      " Case-insensitive search
+set smartcase       " Case-sensitive search if any uppercase letters are used
+
+"--- Status Line Adaptations ---
+set laststatus=2    " Always display the status line
+
+function! ModifiedColor()
+    if &mod == 1
+        hi statusline guibg=gray ctermfg=8 guifg=OrangeRed4 ctermbg=red
+    else
+        hi statusline guibg=gray ctermfg=8 guifg=DarkSlateGray ctermbg=gray
+    endif
+endfunction
+
+au InsertLeave,InsertEnter,BufWritePost * call ModifiedColor()
+" default the statusline when entering Vim
+hi statusline guibg=White ctermfg=8 guifg=DarkSlateGray ctermbg=15
+
+" Formats the statusline
+set statusline=%f       " show the filename (short path)
+set statusline+=%h      " help file flag
+set statusline+=%r      " read only flag
+
+"--- Colorscheme ---
+colorscheme evening " Activate the 'evening' colorscheme
+
+"--- UI Polish ---
+set ruler           " Show current cursor position (line/column) in status line
+set showmatch       " Highlight matching brackets
+set noshowmode      " Don't show --INSERT-- in status line 
+set cmdheight=1     " Height of the command bar
+set mouse=a         " Enable mouse support in all moders (optional, requires a terminal with mouse support)
+
+"--- Navigation ---
+nnoremap <C-p> :Files<CR>   " Example mapping for a plugin if you install one later
+
+"--- Persistence ---
+set hidden          " Allow buffers to be hidden when they are abandoned
+set history=1000    " Remember a thousand lines of command history
+set undofile        " Save undo history even after closing file
+set undodir=~/.vim/undo  " Directory to store undo files
