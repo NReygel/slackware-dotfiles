@@ -1,0 +1,52 @@
+#!/bin/bash
+# bash_functions
+# 12/11/2025
+# gc@neutron
+
+# Function to add the last executed command as a permanent alias
+mkal () {
+	# Define some color codes
+	local PASTEL_RED='\e[38;5;210m'
+	local PASTEL_GREEN='\e[38;5;114m'
+	local PASTEL_PURPLE='\e[38;5;189m'
+	local PASTEL_YELLOW='\e[38;5;229m'
+	local PASTEL_CYAN='\e[38;5;116'
+	local PASTEL_ORANGE='\e[38;5;216'
+	local PASTEL_GREY='\e[38;5;252'
+
+
+	local RED='\033[0;31m'
+	local GREEN='\033[0;32m'
+
+	# Reset color
+	local NC='\033[0m'
+
+	if [ -z "$1" ]; then
+		echo -e "${PASTEL_RED}Usage:${NC} mkal <alias_name>"
+		return 1
+	fi
+
+	# Check if ~/.bash_aliases exists, if not, create it
+	if [ ! -f ~/.bash_aliases ]; then
+		echo -e "${PASTEL_RED}File ~/.bash_aliases not found:${PASTEL_GREEN} create with headers.${NC}"
+		echo "#!/bin/bash" > ~/.bash_aliases
+		echo "# File name: bash_aliases" >> ~/.bash_aliases
+		echo "# File created: $(date +'%d/%m/%Y')" >> ~/.bash_aliases
+		echo "# User@Host: $(whoami)@$(hostname)" >> ~/.bash_aliases
+		echo "" >> ~/.bash_aliases
+	fi
+
+	# Get the last command from history (excluding the mkal command itself)
+	local last_command=$(history -p '!!')
+	# Remove the leading history number and trim whitespace
+	last_command=$(echo "$last_command" | sed 's/^[[:space:]]*[0-9][[:space:]]*//; s/^[[:space:]]*//')
+	
+	# Append the alias definition to the file
+	echo "alias $1='$last_command'" >> ~/.bash_aliases
+	echo "Alias '$1' added for command: $last_command"
+
+	# Source the aliases file to make the new alias available immediately
+	source ~/.bash_aliases
+	echo "New alias available in current and future sessions."
+}
+
